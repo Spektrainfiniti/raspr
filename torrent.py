@@ -1,4 +1,4 @@
-from typing import Any, Dict, NoReturn, Union
+from typing import Any, Dict, Union
 from base import Comp, Network, NetworkInterface
 
 
@@ -21,16 +21,16 @@ class Torrent_File():
     def get_ip_seed(self) -> Union[None, str]:
         return self.__ip_seed
 
-    def set_file_name(self, name) -> NoReturn:
+    def set_file_name(self, name) -> None:
         self.__file_name = name
 
-    def set_file_size(self, size) -> NoReturn:
+    def set_file_size(self, size) -> None:
         self.__file_size = size
 
-    def set_number_shards(self, number_shards) -> NoReturn:
+    def set_number_shards(self, number_shards) -> None:
         self.__number_shards = number_shards
 
-    def set_ip_seed(self, ip_seed) -> NoReturn:
+    def set_ip_seed(self, ip_seed) -> None:
         self.__ip_seed = ip_seed
 
 

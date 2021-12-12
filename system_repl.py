@@ -1,4 +1,4 @@
-from typing import Any, Dict, NoReturn, Union
+from typing import Any, Dict, Union
 
 
 class Record:
@@ -25,7 +25,7 @@ class Database:
         """Number of records."""
         return len(self.__records)
 
-    def add_record(self, r) -> NoReturn:
+    def add_record(self, r) -> None:
         """Add record to database."""
         if r.get_id() in self.__records:
             raise ValueError("Duplicated ID")
@@ -70,7 +70,7 @@ class System:
         """Return replicated DB."""
         return self.__repls[ind]
 
-    def sync(self) -> NoReturn:
+    def sync(self) -> None:
         """Synchronize system."""
         for repl in self.__repls:
             _sync(self.__main, repl)
@@ -99,11 +99,11 @@ class System:
         """Return statistics of readings."""
         return self.__stats
 
-    def __update_ind(self) -> NoReturn:
+    def __update_ind(self) -> None:
         self.__ind = (self.__ind + 1) % len(self.__repls)
 
 
-def _sync(src, dst) -> NoReturn:
+def _sync(src, dst) -> None:
     records = src.get_all()
     for rec_id, rec in records.items():
         if not dst.get_record(rec_id):

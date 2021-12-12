@@ -1,4 +1,4 @@
-from typing import Any, NoReturn
+from typing import Any
 
 
 class Comp:
@@ -72,7 +72,7 @@ class NetworkInterface:
         self.net : Network = None
         self.addr : str = None
 
-    def setup(self, net : Network , addr : str) -> NoReturn:
+    def setup(self, net : Network , addr : str) -> None:
         """Set net and address to interface."""
         self.net = net
         self.addr = addr

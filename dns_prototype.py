@@ -1,4 +1,4 @@
-from typing import Any, NoReturn, Union
+from typing import Any, Union
 from base import Comp as com, Network as net, NetworkInterface as netint
 
 
@@ -7,7 +7,7 @@ class NetworkInterface(netint):
         super().__init__()
         self.dns : Union[None, str] = None
 
-    def set_dns_server(self, addr : str) -> NoReturn:
+    def set_dns_server(self, addr : str) -> None:
         """Set DNS server."""
         self.dns = addr
 
@@ -56,7 +56,7 @@ class DnsDb:
         """Return number of records."""
         return len(self.__records)
 
-    def add_record(self, record : Record) -> NoReturn:
+    def add_record(self, record : Record) -> None:
         """Add record."""
         self.__check_record(record)
         self.__records[record.get_name()] = record
@@ -68,7 +68,7 @@ class DnsDb:
         except KeyError:
             return None
 
-    def __check_record(self, record : Record) -> NoReturn:
+    def __check_record(self, record : Record) -> None:
         if record.get_addr() in self.__addrs:
             raise ValueError("Duplicated address")
         self.__addrs[record.get_addr()] = True
@@ -83,7 +83,7 @@ class Comp(com):
     def localDb(self) -> Union[None, DnsDb]:
         return self.__local_db
 
-    def set_dns_db(self, db : DnsDb) -> NoReturn:
+    def set_dns_db(self, db : DnsDb) -> None:
         self.__local_db = db
 
     def resolve(self, name : str) -> Union[None, str]:
