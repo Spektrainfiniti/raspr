@@ -5,8 +5,8 @@ class Comp:
     """Computer."""
 
     def __init__(self):
-        self.__iface = NetworkInterface()
-        self.__data = None
+        self.__iface : NetworkInterface = NetworkInterface()
+        self.__data : Any = None
 
     def iface(self) -> Any:
         """Return network interface."""
@@ -32,7 +32,7 @@ class Comp:
     def get_ip(self) -> str:
         return self.iface().addr
 
-    def print_data(self):
+    def print_data(self) -> Any:
         return self.__data
 
 
@@ -42,7 +42,7 @@ class Network:
     def __init__(self):
         self.__hosts : dict[str, Comp]= {}
 
-    def add_host(self, comp : Comp, addr : str):
+    def add_host(self, comp : Comp, addr : str) -> None:
         """Add host to net."""
         self.__hosts[addr] = comp
         comp.iface().setup(self, addr)
