@@ -1,5 +1,6 @@
 from typing import Any, Union
 from dns_prototype import *
+from torrent import Torrent_File
 
 
 class Comp:
@@ -53,6 +54,8 @@ class Comp:
     def create_message(self, dst_addr, type_msg, msg):
         return [dst_addr, self.ip, type_msg, msg]
 
+#-------------------------------------------------------------------------------------------------------------------
+
     @property
     def dns(self):
         return self.iface.dns
@@ -99,9 +102,7 @@ class Comp:
                     self.set_dns_db(db)
             return addr
         return None
-
-    def ant(self):
-        return self.iface.ant
+#-------------------------------------------------------------------------------------------------------------------
 
 
 class Network:
@@ -183,6 +184,8 @@ class NetworkInterface:
             return message
         return "No message"
 
+#-------------------------------------------------------------------------------------------------------------------
+
     @property
     def dns(self):
         return self.__dns
@@ -212,3 +215,5 @@ class NetworkInterface:
                 addr = self.resolveNonRecursive(ans[0], name)
                 return addr[0]
         return ans
+
+#-------------------------------------------------------------------------------------------------------------------
