@@ -1,56 +1,37 @@
+<<<<<<< HEAD
 from typing import Any, Union
 from dns_prototype import *
 from torrent import Torrent_File
+=======
+from typing import Any
+>>>>>>> parent of 583c0bf (Fix)
 
 
 class Comp:
     """Computer."""
 
     def __init__(self):
-        self.__iface = NetworkInterface()
+        self.__iface : NetworkInterface = NetworkInterface()
         self.__data : Any = None
-        self.__local_db : Any = None
-    
-    @property
+
     def iface(self) -> Any:
         """Return network interface."""
         return self.__iface
 
     def ping(self, addr : str) -> str:
         """Send ping to address."""
-        return self.iface.ping(addr)
+        return self.iface().ping(addr)
 
-    def send(self, addr : str, type_msg, msg) -> str:
+    def send(self, data : Any, addr : str) -> str:
         """Send Data to address."""
-        message = self.create_message(addr,type_msg, msg)
-        return self.iface.send(message)
+        return self.iface().send(data, addr)
 
-    def get(self):
+    def get(self, data : Any, src : str) -> str:
         """Get information from host."""
-        msg = self.iface.get()
-        if msg != "No message":
-            if msg[2] == "text":
-                return f"Data from {msg[1]} has been received."
-            elif msg[2] == "resolve":
-                return self.resolve(msg[-1])
-            elif msg[2] == "resolve_non_rec":
-                name = msg[-1]
-                if self.localDb:
-                    addr = self.localDb.resolve(name)
-                    if addr:
-                        return [addr, "IP"]
-                if self.dns:
-                    return [self.dns, "DNS"]
-                return None
+        self.add_to_data(data)
+        return f"Data from {src} has been received."
 
-    @property
-    def ip(self) -> str:
-        return self.iface.addr
-
-    @property
-    def data(self) -> Any:
-        return self.__data
-
+<<<<<<< HEAD
     def create_message(self, dst_addr, type_msg, msg):
         return [dst_addr, self.ip, type_msg, msg]
 
@@ -103,6 +84,17 @@ class Comp:
             return addr
         return None
 #-------------------------------------------------------------------------------------------------------------------
+=======
+    def add_to_data(self, data : Any):
+        """Add information to data in comp."""
+        self.__data = data
+
+    def get_ip(self) -> str:
+        return self.iface().addr
+
+    def print_data(self) -> Any:
+        return self.__data
+>>>>>>> parent of 583c0bf (Fix)
 
 
 class Network:
@@ -110,13 +102,11 @@ class Network:
 
     def __init__(self):
         self.__hosts : dict[str, Comp]= {}
-        self.message_pool : dict[str, list]= {}
 
     def add_host(self, comp : Comp, addr : str) -> None:
         """Add host to net."""
         self.__hosts[addr] = comp
-        comp.iface.setup(self, addr)
-        self.message_pool[addr] = []
+        comp.iface().setup(self, addr)
 
     def ping(self, src : str, dst : str) -> str:
         """Ping sends ping to host."""
@@ -132,22 +122,8 @@ class Network:
 
         return "Unknown host"
 
-    def add_message_to_pool(self, msg):
-        try:
-            self.message_pool[msg[0]].append(msg)
-        except KeyError:
-            return "Unknown host"
-        if msg[0] in self.__hosts:
-            ans = self.__hosts[msg[0]].get()
-            self.message_pool[msg[0]].pop()
-            return ans
-        return "Message added in pool"
-
     def number_hosts(self) -> int:
         return len(self.__hosts)
-
-    def message_to(self, addr):
-        return len(self.message_pool[addr])
 
 
 class NetworkInterface:
@@ -156,8 +132,6 @@ class NetworkInterface:
     def __init__(self):
         self.net : Network = None
         self.addr : str = None
-        self.__dns : Union[None, str] = None
-        self.ant = []
 
     def setup(self, net : Network , addr : str) -> None:
         """Set net and address to interface."""
@@ -170,10 +144,11 @@ class NetworkInterface:
             return "No network"
         return self.net.ping(self.addr, addr)
 
-    def send(self, msg : list):
+    def send(self, data : Any, addr : str):
         """Send Data to address."""
         if not self.net:
             return "No network"
+<<<<<<< HEAD
         return self.net.add_message_to_pool(msg)
 
     def get(self):
@@ -217,3 +192,6 @@ class NetworkInterface:
         return ans
 
 #-------------------------------------------------------------------------------------------------------------------
+=======
+        return self.net.send(data, self.addr, addr)
+>>>>>>> parent of 583c0bf (Fix)
