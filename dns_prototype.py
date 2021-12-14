@@ -88,7 +88,7 @@ class DNS(Service):
             return [ans, "IP"]
 
         if self.dns:
-            if src_ip not in ("self"):
+            if src_ip != "self":
                 return [self.dns, "DNS"]
 
         ans = self.comp.send(self.dns, "DNS", "resolve_non_rec", name)

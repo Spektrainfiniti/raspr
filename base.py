@@ -146,6 +146,7 @@ class ST_LIB(Service):
     def func(self,src_ip, command, args = None):
         if command == "receive_message":
             return self.receive_message(src_ip, args)
+        return "Error"
 
     def receive_message(self, src_ip, params):
         return f"Data from {src_ip} has been received."
