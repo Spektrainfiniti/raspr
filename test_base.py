@@ -7,7 +7,7 @@ class TestComp(unittest.TestCase):
         comp = Comp()
         net = Network()
         net.add_host(comp, "192.168.0.2")
-        ans = comp.get_ip()
+        ans = comp.ip
         self.assertEqual(ans, "192.168.0.2")
 
     def test_no_ping(self):
@@ -23,7 +23,15 @@ class TestComp(unittest.TestCase):
         net.add_host(comp1, "192.168.0.2")
         net.add_host(comp2, "192.168.0.4")
 
-        ans = comp1.send("Привет", "192.168.0.4")
+        msg = {
+            "service" : "ST_LIB",
+            "method" : "receive_message",
+            "params" : {
+                "message" : 'Привет'
+            }
+        }
+
+        ans = comp1.send(msg, "192.168.0.4")
         self.assertEqual(ans,"Data from 192.168.0.2 has been received.")
 
     def test_send_to_unknown_host(self):
@@ -34,19 +42,21 @@ class TestComp(unittest.TestCase):
         net.add_host(comp1, "192.168.0.2")
         net.add_host(comp2, "192.168.0.4")
 
-        ans = comp1.send("Привет", "192.168.0.5")
+        msg = {
+            "service" : "ST_LIB",
+            "method" : "receive_message",
+            "params" : {
+                "message" : 'Привет'
+            }
+        }
+
+        ans = comp1.send(msg, "192.168.0.5")
         self.assertEqual(ans, "Unknown host")
 
     def test_print_empty_data(self):
         comp = Comp()
-        ans = comp.print_data()
-        self.assertIsNone(ans)
-
-    def test_print_adding_data(self):
-        comp = Comp()
-        comp.add_to_data("Hallo!")
-        ans = comp.print_data()
-        self.assertEqual(ans, "Hallo!")
+        ans = comp.files
+        self.assertEqual(len(ans), 0)
 
 
 class TestNetwork(unittest.TestCase):
@@ -93,6 +103,7 @@ class TestNetwork(unittest.TestCase):
 
         ans = comp2.ping("192.168.0.2")
         self.assertEqual(ans, "ping from 192.168.0.4 to 192.168.0.2")
+
 
 if __name__ == '__main__':
     unittest.main()
