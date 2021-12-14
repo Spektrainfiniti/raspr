@@ -1,4 +1,4 @@
-from base import Network, Comp
+from base import *
 import unittest
 
 
@@ -23,16 +23,8 @@ class TestComp(unittest.TestCase):
         net.add_host(comp1, "192.168.0.2")
         net.add_host(comp2, "192.168.0.4")
 
-        msg = {
-            "service" : "ST_LIB",
-            "method" : "receive_message",
-            "params" : {
-                "message" : 'Привет'
-            }
-        }
-
-        ans = comp1.send(msg, "192.168.0.4")
-        self.assertEqual(ans,"Data from 192.168.0.2 has been received.")
+        ans = comp1.send("192.168.0.4", "ST_LIB", "receive_message", "Привет!")
+        self.assertEqual(ans, "Data from 192.168.0.2 has been received.")
 
     def test_send_to_unknown_host(self):
         net = Network()
@@ -42,21 +34,8 @@ class TestComp(unittest.TestCase):
         net.add_host(comp1, "192.168.0.2")
         net.add_host(comp2, "192.168.0.4")
 
-        msg = {
-            "service" : "ST_LIB",
-            "method" : "receive_message",
-            "params" : {
-                "message" : 'Привет'
-            }
-        }
-
-        ans = comp1.send(msg, "192.168.0.5")
+        ans = comp1.send("192.168.0.5", "ST_LIB", "receive_message", "Привет!")
         self.assertEqual(ans, "Unknown host")
-
-    def test_print_empty_data(self):
-        comp = Comp()
-        ans = comp.files
-        self.assertEqual(len(ans), 0)
 
 
 class TestNetwork(unittest.TestCase):
